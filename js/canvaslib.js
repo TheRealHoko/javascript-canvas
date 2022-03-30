@@ -13,17 +13,17 @@ function getindex(x, y, width) {
 	return red;
 }
 
-function put_pixel(image, x, y, color) {
-	image.data[getindex(x, y, image.width)] = color[0];
-	image.data[getindex(x, y, image.width) + 1] = color[1];
-	image.data[getindex(x, y, image.width) + 2] = color[2];
-	image.data[getindex(x, y, image.width) + 3] = color[3];
+function put_pixel(image, x, y, width, color) {
+	image.data[getindex(x, y, width)] = color[0];
+	image.data[getindex(x, y, width) + 1] = color[1];
+	image.data[getindex(x, y, width) + 2] = color[2];
+	image.data[getindex(x, y, width) + 3] = color[3];
 }
 
 function fill_img(img, color) {
 	for (let x = 0; x < img.width; x++) {
 		for (let y = 0; y < img.height; y++) {
-			put_pixel(img, x, y, color);
+			put_pixel(img, x, y, img.width, color);
 		}
 	}
 }
