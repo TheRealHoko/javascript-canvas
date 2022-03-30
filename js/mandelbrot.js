@@ -1,20 +1,26 @@
 import * as c from "./canvaslib.js";
 
 function mandelbrot_set(img, x, y, f) {
-	var	xscale, yscale, i, zx, zy, xtemp;
-	var	cx, cy;
+	var a;
+	var b;
+	var ca;
+	var cb;
+	var i;
 
-	xscale = x / img.width;
-	yscale = y / img.height;
-	zx = 0;
-	zy = 0;
-	cx = -1.6;
-	cy = -0.5;
+	a = f.remin + (x/img.width) * f.scale;
+	b = f.imin + (y/img.height) * f.scale;
+	ca = a;
+	cb = b;
 	i = 0;
-	while ((zx * zx + zy * zy) < 4 && i < 30) {
-		xtemp = zx*zx - zy*zy + xscale + cx;;
-		zy = 2 * zx * zy + yscale + cy;
-		zx = xtemp;
+	while (a + b < 4 && i < 255)
+	{
+		var aa = a * a;
+		var bb = b * b;
+		var twoab = 2 * a * b;
+		a = aa - bb + ca;
+		b = twoab + cb;
+		if (a > f.remax || b > f.imax)
+			break;
 		i++;
 	}
 	return (i);
@@ -22,10 +28,10 @@ function mandelbrot_set(img, x, y, f) {
 
 function renderFractal(img, f) {
 	var color = 0;
-	for (let x = f.zoomX; x < img.width; x++) {
-		for (let y = f.zoomY; y < img.height; y++) {
+	for (let x = 0; x < img.width; x++) {
+		for (let y = 0; y < img.height; y++) {
 			var rgb = mandelbrot_set(img, x, y, f);
-			color = [rgb*10, rgb, rgb*5, 255];
+			color = [rgb, rgb, rgb, 255];
 			c.put_pixel(img, x, y, color);
 		}
 	}
